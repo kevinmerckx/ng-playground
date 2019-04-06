@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    build: .
+    command: sh -c "cd /myapp && npm install && npm rebuild node-sass && npm run start"
+    volumes:
+      - .:/myapp
+    ports:
+      - 4200:4200

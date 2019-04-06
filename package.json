@@ -1,0 +1,62 @@
+{
+  "name": "ng-playground",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --host 0.0.0.0",
+    "build": "ng build",
+    "test": "ng test",
+    "test:ci": "ng test --watch=false",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "build:prod": "ng build --prod"
+  },
+  "engines": {
+    "node": "10.15.3"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "7.2.1",
+    "@angular/common": "7.2.1",
+    "@angular/compiler": "7.2.1",
+    "@angular/core": "7.2.1",
+    "@angular/forms": "7.2.1",
+    "@angular/http": "7.2.1",
+    "@angular/platform-browser": "7.2.1",
+    "@angular/platform-browser-dynamic": "7.2.1",
+    "@angular/router": "7.2.1",
+    "core-js": "^2.4.1",
+    "express": "^4.16.3",
+    "http-auth": "^3.2.3",
+    "iwerk-angular-ui": "3.17.1",
+    "rxjs": "^6.3.3",
+    "zone.js": "^0.8.28"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-ng-packagr": "~0.12.0",
+    "@angular/cli": "7.2.2",
+    "@angular/compiler-cli": "7.2.1",
+    "@angular/language-service": "7.2.1",
+    "@types/jasmine": "~2.8.3",
+    "@types/jasminewd2": "~2.0.2",
+    "@types/node": "~6.0.60",
+    "codelyzer": "4.5.0",
+    "jasmine-core": "~2.8.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~2.0.0",
+    "karma-coverage-istanbul-reporter": "^1.2.1",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "ng-documentation": "0.0.2",
+    "ng-packagr": "^4.2.0",
+    "phantomjs-prebuilt": "^2.1.16",
+    "protractor": "~5.1.2",
+    "ts-node": "~4.1.0",
+    "tsickle": ">=0.34.0",
+    "tslib": "^1.9.0",
+    "tslint": "~5.9.1",
+    "typescript": "3.2.4",
+    "@angular-devkit/build-angular": "0.12.2"
+  }
+}

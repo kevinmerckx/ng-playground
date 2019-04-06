@@ -1,0 +1,9 @@
+version: '3'
+services:
+  test:
+    build: .
+    command: sh -c "cd /myapp && npm install && npm rebuild node-sass && npm rebuild phantomjs-prebuilt && npm run test"
+    volumes:
+      - .:/myapp
+    ports:
+      - 9876:9876
