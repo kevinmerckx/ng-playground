@@ -1,5 +1,7 @@
 # NG Playground
 
+[![Build Status](https://travis-ci.org/kevinmerckx/ng-playground.svg?branch=develop)](https://travis-ci.org/kevinmerckx/ng-playground)
+
 Enable developers to have a playground: easy setup to rapidly develop components/directives/pipes etc.
 
 ## Get started
