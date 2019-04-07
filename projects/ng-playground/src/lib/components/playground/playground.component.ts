@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { TreeComponent, TreeItem } from 'iwerk-angular-ui';
-import { PLAYGROUND_ROUTES, RouteWithLink } from '../../ng-playground.tokens';
+import { PlaygroundRoutes, PLAYGROUND_ROUTES, RouteWithLink } from '../../ng-playground.tokens';
 
 @Component({
   selector: 'pg-playground',
@@ -11,7 +11,7 @@ export class PlaygroundComponent {
   tree: TreeItem[];
 
   constructor(
-    @Inject(PLAYGROUND_ROUTES) private routes: RouteWithLink[]
+    @Inject(PLAYGROUND_ROUTES) private routes: PlaygroundRoutes
   ) {
     const transform = (rs: RouteWithLink[]): TreeItem[] => {
       return rs.map(r => ({

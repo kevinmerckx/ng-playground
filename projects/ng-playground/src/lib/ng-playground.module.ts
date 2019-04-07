@@ -24,14 +24,10 @@ import { FormsModule } from '@angular/forms';
   ]
 })
 export class PlaygroundModule {
-  static fromTitleToPath(title: string) {
-    return title.replace(/ /g, '');
-  }
-
   static configure(config: {routes: CustomRoute[]}): ModuleWithProviders {
     const transform = (routes: CustomRoute[], current: string[] = []): RouteWithLink[] => {
       return routes.map(r => {
-        const path = PlaygroundModule.fromTitleToPath(r.title);
+        const path = r.title.replace(/ /g, '');
         const newCurrent = current.concat([path]);
         const component = (r as LeafRoute).component || AbstractComponent;
         const result = {
