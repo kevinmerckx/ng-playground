@@ -16,6 +16,10 @@
   "engines": {
     "node": "10.15.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevinmerckx/ng-playground.git"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "7.2.12",
@@ -75,13 +79,13 @@
     "prepare": [
       {
         "path": "@semantic-release/changelog",
-        "changelogFile": "../CHANGELOG.md"
+        "changelogFile": "CHANGELOG.md"
       },
       "@semantic-release/npm",
       {
         "path": "@semantic-release/git",
         "assets": [
-          "../CHANGELOG.md"
+          "CHANGELOG.md"
         ]
       }
     ],
