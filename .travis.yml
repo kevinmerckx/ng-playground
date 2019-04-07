@@ -13,7 +13,7 @@ apt:
 install:
   - npm install
 script:
-  - npm run lint && npm run build:lib && npm run build:docs
+  - npm run lint && npm run build:lib
 node_js:
   - '10'
 # after_success:
