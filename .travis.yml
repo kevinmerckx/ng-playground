@@ -17,7 +17,7 @@ script:
 node_js:
   - '10'
 after_success:
-  - ./node_modules/.bin/semantic-release --dry-run
+  - ./node_modules/.bin/semantic-release
 #   - npm run send-coverage
 branches:
   except:
