@@ -16,9 +16,9 @@ script:
   - npm run lint && npm run build:lib
 node_js:
   - '10'
-# after_success:
+after_success:
 #   - npm run send-coverage
-#   - npm run travis-deploy-once "cd dist && ../node_modules/.bin/semantic-release"
+  - ./node_modules/.bin/semantic-release --dry-run
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
