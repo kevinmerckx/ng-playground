@@ -19,4 +19,6 @@ export type RouteWithLink = Route & {
   routerLink: string[];
 };
 
-export const PLAYGROUND_ROUTES = new InjectionToken<RouteWithLink[]>('PLAYGROUND_ROUTES');
+export type PlaygroundRoutes = RouteWithLink[];
+
+export const PLAYGROUND_ROUTES = new InjectionToken<any>('PLAYGROUND_ROUTES');

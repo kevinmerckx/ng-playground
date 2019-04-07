@@ -123,7 +123,7 @@
       "root": "projects/ng-playground",
       "sourceRoot": "projects/ng-playground/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "pg",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

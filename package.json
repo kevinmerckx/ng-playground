@@ -9,7 +9,7 @@
     "test:ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:prod": "ng build --prod"
+    "build:lib": "ng build ng-playground"
   },
   "engines": {
     "node": "10.15.3"
