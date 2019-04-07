@@ -9,7 +9,7 @@
     "test:ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:lib": "ng build ng-playground && cp README.md dist/ng-playground"
+    "build:lib": "ng build ng-playground && cp README.md dist/ng-playground && node-sass projects/ng-playground/src/ng-playground.sass dist/ng-playground/ng-playground.css"
   },
   "engines": {
     "node": "10.15.3"
