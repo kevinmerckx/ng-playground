@@ -14,11 +14,11 @@ install:
   - npm install
 script:
   - npm run lint && npm run build:lib
+  - ./node_modules/.bin/semantic-release --dry-run
 node_js:
   - '10'
-after_success:
+# after_success:
 #   - npm run send-coverage
-  - ./node_modules/.bin/semantic-release --dry-run
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
