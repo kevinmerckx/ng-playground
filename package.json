@@ -10,7 +10,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:lib": "ng build ng-playground && cp README.md dist/ng-playground && node-sass projects/ng-playground/src/ng-playground.sass dist/ng-playground/ng-playground.css",
-    "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release"
   },
   "engines": {
@@ -57,12 +56,10 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^1.0.4",
-    "ng-documentation": "0.1.1",
     "ng-packagr": "^4.2.0",
     "phantomjs-prebuilt": "^2.1.16",
     "protractor": "~5.1.2",
     "semantic-release": "^15.13.3",
-    "travis-deploy-once": "^5.0.11",
     "ts-node": "~4.1.0",
     "tsickle": ">=0.34.0",
     "tslib": "^1.9.0",
