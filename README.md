@@ -1,6 +1,8 @@
 # NG Playground
 
-[![Build Status](https://travis-ci.org/kevinmerckx/ng-playground.svg?branch=develop)](https://travis-ci.org/kevinmerckx/ng-playground) [![Greenkeeper badge](https://badges.greenkeeper.io/kevinmerckx/ng-playground.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/kevinmerckx/ng-playground.svg?branch=develop)](https://travis-ci.org/kevinmerckx/ng-playground)
+[![Greenkeeper badge](https://badges.greenkeeper.io/kevinmerckx/ng-playground.svg)](https://greenkeeper.io/)
+[![npm version](https://badge.fury.io/js/ng-playground.svg)](https://badge.fury.io/js/ng-playground)
 
 Enable developers to have a playground: easy setup to rapidly develop components/directives/pipes etc.
 
