@@ -22,11 +22,11 @@ after_success:
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
-  local-dir: ./dist/docs
-  on:
-    branch: master
+# deploy:
+#   provider: pages
+#   skip-cleanup: true
+#   github-token: $GH_TOKEN
+#   keep-history: true
+#   local-dir: ./dist/docs
+#   on:
+#     branch: master
