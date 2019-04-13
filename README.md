@@ -23,9 +23,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PlaygroundModule } from 'ng-playground';
 import { AppComponent } from './app.component';
-import { CaseAComponent } from './cases/case-a/case-a.component';
-import { CaseBComponent } from './cases/case-b/case-b.component';
-import { CaseCComponent } from './cases/case-c/case-c.component';
+import {
+  CaseAComponent,
+  CaseBComponent
+  CaseCComponent
+} from './cases';
 
 
 @NgModule({
@@ -61,6 +63,8 @@ In the `app.component.html`:
 
 In `angular.json`, add the styles:
 
-styles: [
+```json
+"styles": [
   "node_modules/ng-playground/ng-playground.css"
 ]
+```
