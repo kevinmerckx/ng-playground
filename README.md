@@ -4,7 +4,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/kevinmerckx/ng-playground.svg)](https://greenkeeper.io/)
 [![npm version](https://badge.fury.io/js/ng-playground.svg)](https://badge.fury.io/js/ng-playground)
 
-NG Playground aimts enables developers to have a playground: easy setup to rapidly develop components/directives/pipes etc.
+NG Playground enables developers to have a playground: easy setup to rapidly develop components/directives/pipes etc.
 
 ```sh
 npm install --save-dev ng-playground
