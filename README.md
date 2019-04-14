@@ -43,7 +43,6 @@ import {
       ]
     })
   ],
-  providers: [],
   bootstrap: [PlaygroundComponent]
 })
 export class AppModule { }
