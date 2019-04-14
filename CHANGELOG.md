@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/kevinmerckx/ng-playground/compare/v1.0.2...v2.0.0) (2019-04-14)
+
+
+### Features
+
+* **playground:** bootstrap playground component ([#21](https://github.com/kevinmerckx/ng-playground/issues/21)) ([e03494b](https://github.com/kevinmerckx/ng-playground/commit/e03494b))
+
+
+### BREAKING CHANGES
+
+* **playground:** you don't need a root component anymore, declare the pg-playground component in your index.html instead. Refer to README for details.
+
 ## [1.0.2](https://github.com/kevinmerckx/ng-playground/compare/v1.0.1...v1.0.2) (2019-04-14)
 
 
