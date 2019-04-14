@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { PlaygroundModule } from '../../projects/ng-playground/src/public_api';
-import { AppComponent } from './app.component';
+import { PlaygroundComponent, PlaygroundModule } from '../../projects/ng-playground/src/public_api';
 import { CaseAComponent } from './cases/case-a/case-a.component';
 import { CaseBComponent } from './cases/case-b/case-b.component';
 import { CaseCComponent } from './cases/case-c/case-c.component';
@@ -9,7 +8,6 @@ import { CaseCComponent } from './cases/case-c/case-c.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
     CaseAComponent,
     CaseBComponent,
     CaseCComponent
@@ -28,7 +26,6 @@ import { CaseCComponent } from './cases/case-c/case-c.component';
       ]
     })
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [PlaygroundComponent]
 })
 export class AppModule { }

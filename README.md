@@ -19,18 +19,16 @@ In the `app.module.ts` do as follows:
 ```ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { PlaygroundModule } from 'ng-playground';
-import { AppComponent } from './app.component';
+import { PlaygroundModule, PlaygroundComponent } from 'ng-playground';
 import {
   CaseAComponent,
-  CaseBComponent
+  CaseBComponent,
   CaseCComponent
 } from './cases';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
     CaseAComponent,
     CaseBComponent,
     CaseCComponent
@@ -39,24 +37,24 @@ import {
     BrowserModule,
     PlaygroundModule.configure({
       routes: [
-        { component: CaseAComponent, title: 'Case A' },
-        { title: 'Case B', children: [
-          …
-        ]},
-        { component: CaseCComponent, title: 'Case C' }
+        { title: 'Case A', component: CaseAComponent },
+        { title: 'Case B', children: [ … ]},
+        { title: 'Case C', component: CaseCComponent }
       ]
     })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [PlaygroundComponent]
 })
 export class AppModule { }
 ```
 
-In the `app.component.html`:
+In the `index.html`:
 
 ```html
-<pg-playground></pg-playground>
+<body>
+  <pg-playground></pg-playground>
+</body>
 ```
 
 In `angular.json`, add the styles:
