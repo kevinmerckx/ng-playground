@@ -35,6 +35,7 @@ export class PlaygroundModule {
           component,
           path,
           routerLink: newCurrent,
+          resolve: r.resolve,
           children: transform((r as AbstractRoute).children || [], newCurrent)
         };
         if (component === AbstractComponent) {
