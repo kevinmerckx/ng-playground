@@ -42,7 +42,8 @@ class LoadStuffResolver implements Resolve<any> {
           loadStuff: LoadStuffResolver
         }}
       ]
-    })
+    }),
+    PlaygroundModule
   ],
   bootstrap: [PlaygroundComponent],
   providers: [LoadStuffResolver]
