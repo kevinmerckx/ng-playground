@@ -1,0 +1,30 @@
+<main>
+  <ng-content></ng-content>
+</main>
+
+<aside>
+  <form (submit)="onSubmit()">
+    <ng-template ngFor [ngForOf]="values" let-value [ngForTrackBy]="trackBy">
+      <label>{{value.key}}
+          <ng-container [ngSwitch]="getType(value)">
+            <input *ngSwitchCase="'string'"
+              type="text"
+              [id]="value.key"
+              [ngModel]="value.value"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onChange(value, $event)"
+            />
+            <input *ngSwitchCase="'number'"
+              type="number"
+              [id]="value.key"
+              [ngModel]="value.value"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onChange(value, $event)"
+            />
+          </ng-container>
+      </label>
+    </ng-template>
+    <button type="submit">Apply Values</button>
+  </form>
+</aside>
+
