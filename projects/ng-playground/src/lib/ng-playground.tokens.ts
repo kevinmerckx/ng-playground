@@ -1,14 +1,16 @@
 import { InjectionToken, Type } from '@angular/core';
-import { Route } from '@angular/router';
+import { Route, ResolveData } from '@angular/router';
 
 export interface AbstractRoute {
   title: string;
   children: CustomRoute[];
+  resolve?: ResolveData;
 }
 
 export interface LeafRoute {
   title: string;
   component: Type<any>;
+  resolve?: ResolveData;
 }
 
 export type CustomRoute = AbstractRoute | LeafRoute;
