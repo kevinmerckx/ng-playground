@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/kevinmerckx/ng-playground/compare/v2.1.0...v2.2.0) (2019-05-05)
+
+
+### Bug Fixes
+
+* **package:** update iwerk-angular-ui to version 4.0.0 ([d9f6903](https://github.com/kevinmerckx/ng-playground/commit/d9f6903))
+
+
+### Features
+
+* **value-editor:** introduce value editor that enables developer to edit values ([d66e652](https://github.com/kevinmerckx/ng-playground/commit/d66e652))
+
 # [2.1.0](https://github.com/kevinmerckx/ng-playground/compare/v2.0.0...v2.1.0) (2019-04-17)
 
 
