@@ -1,16 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { provideRoutes, RouterModule } from '@angular/router';
 import { TreeModule } from 'iwerk-angular-ui';
-import { PlaygroundComponent } from './components/playground/playground.component';
-import { PLAYGROUND_ROUTES, CustomRoute, RouteWithLink, LeafRoute, AbstractRoute } from './ng-playground.tokens';
 import { AbstractComponent } from './components/abstract/abstract.component';
-import { FormsModule } from '@angular/forms';
+import { PlaygroundComponent } from './components/playground/playground.component';
+import { ValueEditorComponent, EditorConfiguration } from './components/value-editor/value-editor.component';
+import { AbstractRoute, CustomRoute, LeafRoute, PLAYGROUND_ROUTES, RouteWithLink } from './ng-playground.tokens';
+import { ValuePipe } from './pipes/value.pipe';
+
+export { EditorConfiguration };
 
 @NgModule({
   declarations: [
     PlaygroundComponent,
-    AbstractComponent
+    AbstractComponent,
+    ValueEditorComponent,
+    ValuePipe
   ],
   imports: [
     TreeModule,
@@ -20,7 +26,9 @@ import { FormsModule } from '@angular/forms';
   ],
   exports: [
     PlaygroundComponent,
-    RouterModule
+    RouterModule,
+    ValuePipe,
+    ValueEditorComponent
   ]
 })
 export class PlaygroundModule {
