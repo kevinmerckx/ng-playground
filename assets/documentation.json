@@ -1,0 +1,849 @@
+{
+    "pipes": [
+        {
+            "name": "ValuePipe",
+            "id": "pipe-ValuePipe-297bf60cb41976bbbe320f5620facaf9",
+            "file": "projects/ng-playground/src/lib/pipes/value.pipe.ts",
+            "type": "pipe",
+            "description": "",
+            "properties": [
+                {
+                    "name": "currentValue",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 11,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "key",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "subscription",
+                    "type": "Subscription",
+                    "optional": false,
+                    "description": "",
+                    "line": 12,
+                    "modifierKind": [
+                        112
+                    ]
+                }
+            ],
+            "methods": [
+                {
+                    "name": "transform",
+                    "args": [
+                        {
+                            "name": "key",
+                            "type": "any"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 21,
+                    "jsdoctags": [
+                        {
+                            "name": "key",
+                            "type": "any",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "pure": false,
+            "ngname": "pgValue",
+            "sourceCode": "import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';\nimport { ValuesService } from '../services/values.service';\nimport { Subscription } from 'rxjs';\n\n@Pipe({\n  name: 'pgValue',\n  pure: false\n})\nexport class ValuePipe implements PipeTransform {\n  private key: string;\n  private currentValue: any;\n  private subscription: Subscription;\n\n  constructor(\n    private values: ValuesService,\n    private changeDetector: ChangeDetectorRef\n  ) {\n\n  }\n\n  transform(key: any): any {\n    if (this.key === key) {\n      return this.currentValue;\n    }\n    if (this.subscription) {\n      this.subscription.unsubscribe();\n    }\n    this.subscription = this.values.getValueAsObservable(key).subscribe(value => {\n      this.currentValue = value;\n      this.changeDetector.markForCheck();\n    });\n    return this.currentValue;\n  }\n\n}\n"
+        }
+    ],
+    "interfaces": [
+        {
+            "name": "AbstractRoute",
+            "id": "interface-AbstractRoute-f988ea1a377ffb7f8edd4debe152fe93",
+            "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+            "type": "interface",
+            "sourceCode": "import { InjectionToken, Type } from '@angular/core';\nimport { Route, ResolveData } from '@angular/router';\n\nexport interface AbstractRoute {\n  title: string;\n  children: CustomRoute[];\n  resolve?: ResolveData;\n}\n\nexport interface LeafRoute {\n  title: string;\n  component: Type<any>;\n  resolve?: ResolveData;\n}\n\nexport type CustomRoute = AbstractRoute | LeafRoute;\n\nexport type RouteWithLink = Route & {\n  title: string;\n  children: RouteWithLink[];\n  routerLink: string[];\n};\n\nexport type PlaygroundRoutes = RouteWithLink[];\n\nexport const PLAYGROUND_ROUTES = new InjectionToken<any>('PLAYGROUND_ROUTES');\n",
+            "properties": [
+                {
+                    "name": "children",
+                    "type": "CustomRoute[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "resolve",
+                    "type": "ResolveData",
+                    "optional": true,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "EditorConfiguration",
+            "id": "interface-EditorConfiguration-08b6f30c5186167b123c492676966ef8",
+            "file": "projects/ng-playground/src/lib/components/value-editor/value-editor.component.ts",
+            "type": "interface",
+            "sourceCode": "import { Component, Input, OnChanges, TrackByFunction } from '@angular/core';\nimport { ValuesService } from '../../services/values.service';\n\nexport interface EditorConfiguration {\n  values: ValueConfigItem<any>[];\n}\n\ninterface ValueConfigItem<V> {\n  name: string;\n  type: 'string' | 'number';\n  initialValue: V;\n}\n\n/**\n * Provides a container for a playground page that displays a form to edit values. Those values are then available in the component.\n */\n@Component({\n  selector: 'pg-value-editor',\n  templateUrl: './value-editor.component.html',\n  styleUrls: ['./value-editor.component.sass']\n})\nexport class ValueEditorComponent implements OnChanges {\n  /**\n   * Configuration for the editor.\n   */\n  @Input() config: EditorConfiguration;\n\n  values: {key: string, value: string}[];\n\n  constructor(private valuesService: ValuesService) {\n  }\n\n  /**\n   * @ignore\n   */\n  ngOnChanges() {\n    const valuesMap = new Map<string, any>();\n    ((this.config || { values: []}).values || []).forEach(c => {\n      valuesMap.set(c.name, c.initialValue);\n    });\n    this.valuesService.set(valuesMap);\n    this.values = this.valuesService.getValues();\n  }\n\n  /**\n   * @ignore\n   */\n  getType(value: { key: string }) {\n    return this.config.values.find(v => v.name === value.key).type;\n  }\n\n  /**\n   * @ignore\n   */\n  onSubmit() {\n    const valuesMap = new Map<string, any>();\n    this.values.forEach(c => {\n      valuesMap.set(c.key, c.value);\n    });\n    this.valuesService.set(valuesMap);\n  }\n\n  /**\n   * @ignore\n   */\n  onChange(value: { key: string }, $event: any) {\n    this.values = this.values.map(v => v.key === value.key ? { ...v, value: $event} : v);\n  }\n\n  trackBy: TrackByFunction<{key: string}> = (_index: number, item) => {\n    return item.key;\n  }\n\n}\n",
+            "properties": [
+                {
+                    "name": "values",
+                    "type": "ValueConfigItem<any>[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "LeafRoute",
+            "id": "interface-LeafRoute-f988ea1a377ffb7f8edd4debe152fe93",
+            "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+            "type": "interface",
+            "sourceCode": "import { InjectionToken, Type } from '@angular/core';\nimport { Route, ResolveData } from '@angular/router';\n\nexport interface AbstractRoute {\n  title: string;\n  children: CustomRoute[];\n  resolve?: ResolveData;\n}\n\nexport interface LeafRoute {\n  title: string;\n  component: Type<any>;\n  resolve?: ResolveData;\n}\n\nexport type CustomRoute = AbstractRoute | LeafRoute;\n\nexport type RouteWithLink = Route & {\n  title: string;\n  children: RouteWithLink[];\n  routerLink: string[];\n};\n\nexport type PlaygroundRoutes = RouteWithLink[];\n\nexport const PLAYGROUND_ROUTES = new InjectionToken<any>('PLAYGROUND_ROUTES');\n",
+            "properties": [
+                {
+                    "name": "component",
+                    "type": "Type<any>",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "resolve",
+                    "type": "ResolveData",
+                    "optional": true,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "ValueConfigItem",
+            "id": "interface-ValueConfigItem-08b6f30c5186167b123c492676966ef8",
+            "file": "projects/ng-playground/src/lib/components/value-editor/value-editor.component.ts",
+            "type": "interface",
+            "sourceCode": "import { Component, Input, OnChanges, TrackByFunction } from '@angular/core';\nimport { ValuesService } from '../../services/values.service';\n\nexport interface EditorConfiguration {\n  values: ValueConfigItem<any>[];\n}\n\ninterface ValueConfigItem<V> {\n  name: string;\n  type: 'string' | 'number';\n  initialValue: V;\n}\n\n/**\n * Provides a container for a playground page that displays a form to edit values. Those values are then available in the component.\n */\n@Component({\n  selector: 'pg-value-editor',\n  templateUrl: './value-editor.component.html',\n  styleUrls: ['./value-editor.component.sass']\n})\nexport class ValueEditorComponent implements OnChanges {\n  /**\n   * Configuration for the editor.\n   */\n  @Input() config: EditorConfiguration;\n\n  values: {key: string, value: string}[];\n\n  constructor(private valuesService: ValuesService) {\n  }\n\n  /**\n   * @ignore\n   */\n  ngOnChanges() {\n    const valuesMap = new Map<string, any>();\n    ((this.config || { values: []}).values || []).forEach(c => {\n      valuesMap.set(c.name, c.initialValue);\n    });\n    this.valuesService.set(valuesMap);\n    this.values = this.valuesService.getValues();\n  }\n\n  /**\n   * @ignore\n   */\n  getType(value: { key: string }) {\n    return this.config.values.find(v => v.name === value.key).type;\n  }\n\n  /**\n   * @ignore\n   */\n  onSubmit() {\n    const valuesMap = new Map<string, any>();\n    this.values.forEach(c => {\n      valuesMap.set(c.key, c.value);\n    });\n    this.valuesService.set(valuesMap);\n  }\n\n  /**\n   * @ignore\n   */\n  onChange(value: { key: string }, $event: any) {\n    this.values = this.values.map(v => v.key === value.key ? { ...v, value: $event} : v);\n  }\n\n  trackBy: TrackByFunction<{key: string}> = (_index: number, item) => {\n    return item.key;\n  }\n\n}\n",
+            "properties": [
+                {
+                    "name": "initialValue",
+                    "type": "V",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "name",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                },
+                {
+                    "name": "type",
+                    "type": "\"string\" | \"number\"",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        }
+    ],
+    "injectables": [
+        {
+            "name": "ValuesService",
+            "id": "injectable-ValuesService-4795dedc4f8e3a4afc33b372524f80fe",
+            "file": "projects/ng-playground/src/lib/services/values.service.ts",
+            "properties": [
+                {
+                    "name": "valuesSubject",
+                    "defaultValue": "new BehaviorSubject<Map<string, any>>(new Map())",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 9,
+                    "modifierKind": [
+                        112
+                    ]
+                }
+            ],
+            "methods": [
+                {
+                    "name": "getValue",
+                    "args": [
+                        {
+                            "name": "key",
+                            "type": "string"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 43,
+                    "jsdoctags": [
+                        {
+                            "name": "key",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getValueAsObservable",
+                    "args": [
+                        {
+                            "name": "key",
+                            "type": "string"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<any>",
+                    "typeParameters": [],
+                    "line": 47,
+                    "jsdoctags": [
+                        {
+                            "name": "key",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getValues",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "{}",
+                    "typeParameters": [],
+                    "line": 23
+                },
+                {
+                    "name": "set",
+                    "args": [
+                        {
+                            "name": "value",
+                            "type": "Map<string | any>"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 33,
+                    "jsdoctags": [
+                        {
+                            "name": "value",
+                            "type": "Map<string | any>",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "setValue",
+                    "args": [
+                        {
+                            "name": "key",
+                            "type": "string"
+                        },
+                        {
+                            "name": "value",
+                            "type": "any"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 37,
+                    "jsdoctags": [
+                        {
+                            "name": "key",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "value",
+                            "type": "any",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "description": "",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport { BehaviorSubject, Observable } from 'rxjs';\nimport { map } from 'rxjs/operators';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class ValuesService {\n  private valuesSubject = new BehaviorSubject<Map<string, any>>(new Map());\n\n  get values$() {\n    return this.valuesSubject.pipe(map(values => {\n      const result: { key: string, value: any }[] = [];\n      values.forEach((value, key) => {\n        result.push({\n          value, key\n        });\n      });\n      return result;\n    }));\n  }\n\n  getValues() {\n    const result: { key: string, value: any }[] = [];\n    this.valuesSubject.value.forEach((value, key) => {\n      result.push({\n        value, key\n      });\n    });\n    return result;\n  }\n\n  set(value: Map<string, any>) {\n    this.valuesSubject.next(value);\n  }\n\n  setValue(key: string, value: any) {\n    const newMap = new Map(this.valuesSubject.value);\n    newMap.set(key, value);\n    this.valuesSubject.next(newMap);\n  }\n\n  getValue(key: string) {\n    return this.valuesSubject.value.get(key);\n  }\n\n  getValueAsObservable(key: string): Observable<any> {\n    return this.valuesSubject.pipe(map(s => s.get(key)));\n  }\n}\n",
+            "accessors": {
+                "values$": {
+                    "name": "values$",
+                    "getSignature": {
+                        "name": "values$",
+                        "type": "",
+                        "returnType": "",
+                        "line": 11
+                    }
+                }
+            },
+            "type": "injectable"
+        }
+    ],
+    "classes": [],
+    "directives": [],
+    "components": [
+        {
+            "name": "AbstractComponent",
+            "id": "component-AbstractComponent-88457b78b4052e9fa276cc15058ae65e",
+            "file": "projects/ng-playground/src/lib/components/abstract/abstract.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "styleUrls": [
+                "./abstract.component.sass"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./abstract.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 11
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  templateUrl: './abstract.component.html',\n  styleUrls: ['./abstract.component.sass']\n})\nexport class AbstractComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit() {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./abstract.component.sass"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 7
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<router-outlet></router-outlet>"
+        },
+        {
+            "name": "PlaygroundComponent",
+            "id": "component-PlaygroundComponent-dc3e45926fed297d7dc650b82f4f3c9c",
+            "file": "projects/ng-playground/src/lib/components/playground/playground.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "pg-playground",
+            "styleUrls": [
+                "./playground.component.sass"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./playground.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "tree",
+                    "type": "TreeItem[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "getLinkStyle",
+                    "args": [
+                        {
+                            "name": "depth",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "{ padding: string; }",
+                    "typeParameters": [],
+                    "line": 25,
+                    "jsdoctags": [
+                        {
+                            "name": "depth",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "toggleExpand",
+                    "args": [
+                        {
+                            "name": "tree",
+                            "type": "TreeComponent"
+                        },
+                        {
+                            "name": "item",
+                            "type": "TreeItem"
+                        },
+                        {
+                            "name": "$event",
+                            "type": "MouseEvent"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
+                    "jsdoctags": [
+                        {
+                            "name": "tree",
+                            "type": "TreeComponent",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "item",
+                            "type": "TreeItem",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "$event",
+                            "type": "MouseEvent",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, Inject } from '@angular/core';\nimport { TreeComponent, TreeItem } from 'iwerk-angular-ui';\nimport { PlaygroundRoutes, PLAYGROUND_ROUTES, RouteWithLink } from '../../ng-playground.tokens';\n\n@Component({\n  selector: 'pg-playground',\n  templateUrl: './playground.component.html',\n  styleUrls: ['./playground.component.sass']\n})\nexport class PlaygroundComponent {\n  tree: TreeItem[];\n\n  constructor(\n    @Inject(PLAYGROUND_ROUTES) private routes: PlaygroundRoutes\n  ) {\n    const transform = (rs: RouteWithLink[]): TreeItem[] => {\n      return rs.map(r => ({\n        data: r,\n        children: transform(r.children || [])\n      })).filter(r => r.data.routerLink);\n    };\n    this.tree = transform(this.routes);\n  }\n\n  getLinkStyle(depth: number) {\n    return { padding: `10px ${depth * 20}px` };\n  }\n\n  toggleExpand(tree: TreeComponent, item: TreeItem, $event: MouseEvent) {\n    $event.stopPropagation();\n    $event.preventDefault();\n    $event.stopImmediatePropagation();\n    tree.toggleExpand(item);\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "@import ../../../styles/cleanslate\n\n\\:host\n  +cleanslate()\n\n  display: flex\n  flex-direction: row\n  height: 100%\n\n  nav\n    flex: 0 0 auto\n    width: 200px\n    height: 100%\n    background: black\n    color: white\n    overflow: auto\n\n  main\n    flex: 1 1\n    overflow: auto\n    height: 100%\n    border: 2px solid grey\n    padding: 5px\n\n  a\n    display: flex\n    flex-direction: row\n    color: white\n    text-decoration: none\n    font-size: 12px\n    border-left: 4px solid transparent\n    border-right: 4px solid transparent\n    transition: border-color 0.3s\n    outline: none\n  a:visited\n    color: white\n\n  a:hover, a:focus\n    border-color: orange\n  \n  a.active\n    border-color: red\n\n  button\n    background: none\n    box-shadow: none\n    appearance: none\n    color: white\n    border: none",
+                    "styleUrl": "./playground.component.sass"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "routes",
+                        "type": "PlaygroundRoutes"
+                    }
+                ],
+                "line": 11,
+                "jsdoctags": [
+                    {
+                        "name": "routes",
+                        "type": "PlaygroundRoutes",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "templateData": "<nav>\n  <iw-tree #treeComponent [tree]=\"tree\" class=\"menu-tree\">\n    <ng-template iwTreeNodeTemplate let-node let-depth=\"depth\">\n      <a [routerLink]=\"node.data.routerLink\"\n        [ngStyle]=\"getLinkStyle(depth)\"\n        [routerLinkActive]=\"'active'\"\n        [routerLinkActiveOptions]=\"{ exact: true }\"\n        [iwTreeItem]=\"node\"\n        (click)=\"treeComponent.expandItem(node)\"\n      >\n      <button\n        [style.visibility]=\"treeComponent.hasChildren(node) ? 'visible' : 'hidden'\"\n        (click)=\"toggleExpand(treeComponent, node, $event)\"\n      >\n        <ng-container *ngIf=\"treeComponent.isExpanded(node)\">&#9660;</ng-container>\n        <ng-container *ngIf=\"!treeComponent.isExpanded(node)\">&#9658;</ng-container>\n      </button>{{node.data.title}}</a>\n    </ng-template>\n  </iw-tree>\n</nav>\n<main>\n  <router-outlet></router-outlet>\n</main>"
+        },
+        {
+            "name": "ValueEditorComponent",
+            "id": "component-ValueEditorComponent-08b6f30c5186167b123c492676966ef8",
+            "file": "projects/ng-playground/src/lib/components/value-editor/value-editor.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "pg-value-editor",
+            "styleUrls": [
+                "./value-editor.component.sass"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./value-editor.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "config",
+                    "description": "<p>Configuration for the editor.</p>\n",
+                    "line": 26,
+                    "type": "EditorConfiguration"
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "trackBy",
+                    "defaultValue": "() => {...}",
+                    "type": "TrackByFunction<literal type>",
+                    "optional": false,
+                    "description": "",
+                    "line": 70
+                },
+                {
+                    "name": "values",
+                    "type": "literal type[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 28
+                }
+            ],
+            "methodsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "<p>Provides a container for a playground page that displays a form to edit values. Those values are then available in the component.</p>\n",
+            "rawdescription": "Provides a container for a playground page that displays a form to edit values. Those values are then available in the component.",
+            "type": "component",
+            "sourceCode": "import { Component, Input, OnChanges, TrackByFunction } from '@angular/core';\nimport { ValuesService } from '../../services/values.service';\n\nexport interface EditorConfiguration {\n  values: ValueConfigItem<any>[];\n}\n\ninterface ValueConfigItem<V> {\n  name: string;\n  type: 'string' | 'number';\n  initialValue: V;\n}\n\n/**\n * Provides a container for a playground page that displays a form to edit values. Those values are then available in the component.\n */\n@Component({\n  selector: 'pg-value-editor',\n  templateUrl: './value-editor.component.html',\n  styleUrls: ['./value-editor.component.sass']\n})\nexport class ValueEditorComponent implements OnChanges {\n  /**\n   * Configuration for the editor.\n   */\n  @Input() config: EditorConfiguration;\n\n  values: {key: string, value: string}[];\n\n  constructor(private valuesService: ValuesService) {\n  }\n\n  /**\n   * @ignore\n   */\n  ngOnChanges() {\n    const valuesMap = new Map<string, any>();\n    ((this.config || { values: []}).values || []).forEach(c => {\n      valuesMap.set(c.name, c.initialValue);\n    });\n    this.valuesService.set(valuesMap);\n    this.values = this.valuesService.getValues();\n  }\n\n  /**\n   * @ignore\n   */\n  getType(value: { key: string }) {\n    return this.config.values.find(v => v.name === value.key).type;\n  }\n\n  /**\n   * @ignore\n   */\n  onSubmit() {\n    const valuesMap = new Map<string, any>();\n    this.values.forEach(c => {\n      valuesMap.set(c.key, c.value);\n    });\n    this.valuesService.set(valuesMap);\n  }\n\n  /**\n   * @ignore\n   */\n  onChange(value: { key: string }, $event: any) {\n    this.values = this.values.map(v => v.key === value.key ? { ...v, value: $event} : v);\n  }\n\n  trackBy: TrackByFunction<{key: string}> = (_index: number, item) => {\n    return item.key;\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "\\:host\n  display: flex\n  flex-direction: column\n  height: 100%\n\nmain\n  flex: 1 1\n  overflow: auto\n\naside\n  padding: 10px 5px\n  border-top: 1px solid grey\n  flex: 0 0 auto",
+                    "styleUrl": "./value-editor.component.sass"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "valuesService",
+                        "type": "ValuesService"
+                    }
+                ],
+                "line": 28,
+                "jsdoctags": [
+                    {
+                        "name": "valuesService",
+                        "type": "ValuesService",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "implements": [
+                "OnChanges"
+            ],
+            "templateData": "<main>\n  <ng-content></ng-content>\n</main>\n\n<aside>\n  <form (submit)=\"onSubmit()\">\n    <ng-template ngFor [ngForOf]=\"values\" let-value [ngForTrackBy]=\"trackBy\">\n      <label>{{value.key}}\n          <ng-container [ngSwitch]=\"getType(value)\">\n            <input *ngSwitchCase=\"'string'\"\n              type=\"text\"\n              [id]=\"value.key\"\n              [ngModel]=\"value.value\"\n              [ngModelOptions]=\"{standalone: true}\"\n              (ngModelChange)=\"onChange(value, $event)\"\n            />\n            <input *ngSwitchCase=\"'number'\"\n              type=\"number\"\n              [id]=\"value.key\"\n              [ngModel]=\"value.value\"\n              [ngModelOptions]=\"{standalone: true}\"\n              (ngModelChange)=\"onChange(value, $event)\"\n            />\n          </ng-container>\n      </label>\n    </ng-template>\n    <button type=\"submit\">Apply Values</button>\n  </form>\n</aside>\n\n"
+        }
+    ],
+    "modules": [
+        {
+            "name": "PlaygroundModule",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AbstractComponent"
+                        },
+                        {
+                            "name": "PlaygroundComponent"
+                        },
+                        {
+                            "name": "ValueEditorComponent"
+                        },
+                        {
+                            "name": "ValuePipe"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "PlaygroundComponent"
+                        },
+                        {
+                            "name": "ValueEditorComponent"
+                        },
+                        {
+                            "name": "ValuePipe"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "PLAYGROUND_ROUTES",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                "type": "",
+                "defaultValue": "new InjectionToken<any>('PLAYGROUND_ROUTES')"
+            }
+        ],
+        "functions": [],
+        "typealiases": [
+            {
+                "name": "CustomRoute",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "AbstractRoute | LeafRoute",
+                "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                "description": "",
+                "kind": 168
+            },
+            {
+                "name": "PlaygroundRoutes",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "RouteWithLink[]",
+                "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                "description": "",
+                "kind": 166
+            },
+            {
+                "name": "RouteWithLink",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "",
+                "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                "description": "",
+                "kind": 169
+            }
+        ],
+        "enumerations": [],
+        "groupedVariables": {
+            "projects/ng-playground/src/lib/ng-playground.tokens.ts": [
+                {
+                    "name": "PLAYGROUND_ROUTES",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                    "type": "",
+                    "defaultValue": "new InjectionToken<any>('PLAYGROUND_ROUTES')"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {
+            "projects/ng-playground/src/lib/ng-playground.tokens.ts": [
+                {
+                    "name": "CustomRoute",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "AbstractRoute | LeafRoute",
+                    "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                    "description": "",
+                    "kind": 168
+                },
+                {
+                    "name": "PlaygroundRoutes",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "RouteWithLink[]",
+                    "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                    "description": "",
+                    "kind": 166
+                },
+                {
+                    "name": "RouteWithLink",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "",
+                    "file": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                    "description": "",
+                    "kind": 169
+                }
+            ]
+        }
+    },
+    "routes": [],
+    "coverage": {
+        "count": 4,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "projects/ng-playground/src/lib/components/abstract/abstract.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AbstractComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/components/playground/playground.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PlaygroundComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/components/value-editor/value-editor.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ValueEditorComponent",
+                "coveragePercent": 40,
+                "coverageCount": "2/5",
+                "status": "medium"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/components/value-editor/value-editor.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "EditorConfiguration",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/components/value-editor/value-editor.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ValueConfigItem",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "AbstractRoute",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "LeafRoute",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/ng-playground.tokens.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "PLAYGROUND_ROUTES",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/pipes/value.pipe.ts",
+                "type": "pipe",
+                "linktype": "pipe",
+                "name": "ValuePipe",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/ng-playground/src/lib/services/values.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "ValuesService",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            }
+        ]
+    }
+}
