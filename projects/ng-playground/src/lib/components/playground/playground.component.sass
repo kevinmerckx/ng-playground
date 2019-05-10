@@ -1,12 +1,16 @@
+@import ../../../styles/cleanslate
+
 \:host
+  +cleanslate()
+
   display: flex
   flex-direction: row
-  height: 100vh
+  height: 100%
 
   nav
     flex: 0 0 auto
     width: 200px
-    height: 100vh
+    height: 100%
     background: black
     color: white
     overflow: auto
@@ -14,7 +18,7 @@
   main
     flex: 1 1
     overflow: auto
-    height: 100vh
+    height: 100%
     border: 2px solid grey
     padding: 5px
 
@@ -28,6 +32,8 @@
     border-right: 4px solid transparent
     transition: border-color 0.3s
     outline: none
+  a:visited
+    color: white
 
   a:hover, a:focus
     border-color: orange

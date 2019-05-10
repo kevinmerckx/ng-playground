@@ -11,12 +11,18 @@ interface ValueConfigItem<V> {
   initialValue: V;
 }
 
+/**
+ * Provides a container for a playground page that displays a form to edit values. Those values are then available in the component.
+ */
 @Component({
   selector: 'pg-value-editor',
   templateUrl: './value-editor.component.html',
   styleUrls: ['./value-editor.component.sass']
 })
 export class ValueEditorComponent implements OnChanges {
+  /**
+   * Configuration for the editor.
+   */
   @Input() config: EditorConfiguration;
 
   values: {key: string, value: string}[];
@@ -24,6 +30,9 @@ export class ValueEditorComponent implements OnChanges {
   constructor(private valuesService: ValuesService) {
   }
 
+  /**
+   * @ignore
+   */
   ngOnChanges() {
     const valuesMap = new Map<string, any>();
     ((this.config || { values: []}).values || []).forEach(c => {
@@ -33,10 +42,16 @@ export class ValueEditorComponent implements OnChanges {
     this.values = this.valuesService.getValues();
   }
 
+  /**
+   * @ignore
+   */
   getType(value: { key: string }) {
     return this.config.values.find(v => v.name === value.key).type;
   }
 
+  /**
+   * @ignore
+   */
   onSubmit() {
     const valuesMap = new Map<string, any>();
     this.values.forEach(c => {
@@ -45,6 +60,9 @@ export class ValueEditorComponent implements OnChanges {
     this.valuesService.set(valuesMap);
   }
 
+  /**
+   * @ignore
+   */
   onChange(value: { key: string }, $event: any) {
     this.values = this.values.map(v => v.key === value.key ? { ...v, value: $event} : v);
   }

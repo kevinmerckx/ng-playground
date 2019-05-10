@@ -3,14 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "ng serve",
+    "start:docs": "ng serve docs",
     "build": "ng build",
     "test": "ng test",
     "test:ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:lib": "ng build ng-playground && cp README.md dist/ng-playground && node-sass projects/ng-playground/src/ng-playground.sass dist/ng-playground/ng-playground.css",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "build:docs": "./scripts/generate-doc.sh projects/docs/src/assets projects/ng-playground/tsconfig.lib.json docs && ng build docs",
+    "watch:docs": "./scripts/watch-docs.sh projects/docs/src/assets/documentation projects/ng-playground/tsconfig.lib.json docs"
   },
   "engines": {
     "node": "10.15.3"
@@ -19,7 +22,7 @@
     "type": "git",
     "url": "https://github.com/kevinmerckx/ng-playground.git"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "7.2.12",
     "@angular/common": "7.2.12",
@@ -56,6 +59,7 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^1.0.4",
+    "ng-documentation": "^1.1.1",
     "ng-packagr": "^4.2.0",
     "phantomjs-prebuilt": "^2.1.16",
     "protractor": "~5.1.2",

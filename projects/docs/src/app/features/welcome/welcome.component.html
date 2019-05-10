@@ -1,0 +1,35 @@
+<docs-page [title]="'NG Playground'">
+  <ng-template docsPageSection="What and why">
+    <p>
+      NG Playground enables developers to have a playground: easy setup to rapidly develop components/directives/pipes etc.
+    </p>
+  </ng-template>  
+
+  <ng-template docsPageSection="Get Started">
+    <ol>
+      <li>Install dependency</li>
+      <docs-code-line>
+        npm install --save-dev ng-playground
+      </docs-code-line>
+
+      <li>Setup the playground</li>
+      <docs-code-line>
+        ng generate application playground
+      </docs-code-line>
+      <docs-tabs>
+        <docs-code *docsTab="'app.module.ts'">{{codeModule}}</docs-code>
+        <docs-code *docsTab="'index.html'">{{codeIndex}}</docs-code>
+      </docs-tabs>
+    </ol>
+  </ng-template>
+
+</docs-page>
+
+
+<!-- In `angular.json`, add the styles:
+
+```json
+"styles": [
+  "node_modules/ng-playground/ng-playground.css"
+]
+``` -->
