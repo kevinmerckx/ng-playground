@@ -12,5 +12,5 @@ export class Example1Component {
       { type: 'string', initialValue: 'Here is #1', name: 'value1' },
       { type: 'number', initialValue: 667, name: 'value2' }
     ]
-  }
+  };
 }
