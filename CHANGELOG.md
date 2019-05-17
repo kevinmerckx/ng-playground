@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/kevinmerckx/ng-playground/compare/v2.2.1...v2.3.0) (2019-05-17)
+
+
+### Features
+
+* **custom-menu-area:** add possibility to customize the bottom area of the menu ([505c96a](https://github.com/kevinmerckx/ng-playground/commit/505c96a))
+
 ## [2.2.1](https://github.com/kevinmerckx/ng-playground/compare/v2.2.0...v2.2.1) (2019-05-17)
 
 
