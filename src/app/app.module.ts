@@ -7,6 +7,7 @@ import { CaseCComponent } from './cases/case-c/case-c.component';
 import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CaseDComponent } from './cases/case-d/case-d.component';
+import { CustomMenuAreaComponent } from './custom-menu-area/custom-menu-area.component';
 
 @Injectable()
 class LoadStuffResolver implements Resolve<any> {
@@ -25,8 +26,10 @@ class LoadStuffResolver implements Resolve<any> {
     CaseAComponent,
     CaseBComponent,
     CaseCComponent,
-    CaseDComponent
+    CaseDComponent,
+    CustomMenuAreaComponent
   ],
+  entryComponents: [CustomMenuAreaComponent],
   imports: [
     BrowserModule,
     PlaygroundModule.configure({
@@ -41,7 +44,8 @@ class LoadStuffResolver implements Resolve<any> {
         { component: CaseDComponent, title: 'Case D', resolve: {
           loadStuff: LoadStuffResolver
         }}
-      ]
+      ],
+      customMenuComponent: CustomMenuAreaComponent
     }),
     PlaygroundModule
   ],

@@ -17,6 +17,10 @@
       </button>{{node.data.title}}</a>
     </ng-template>
   </iw-tree>
+
+  <div class="custom-area" *ngIf="customMenuComponent">
+    <ng-container [ngComponentOutlet]="customMenuComponent"></ng-container>
+  </div>
 </nav>
 <main>
   <router-outlet></router-outlet>

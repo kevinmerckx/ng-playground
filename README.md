@@ -25,14 +25,16 @@ import {
   CaseBComponent,
   CaseCComponent
 } from './cases';
-
+import { CustomMenuAreaComponent } from './custom-menu-area/custom-menu-area.component';
 
 @NgModule({
   declarations: [
     CaseAComponent,
     CaseBComponent,
-    CaseCComponent
+    CaseCComponent,
+    CustomMenuAreaComponent
   ],
+  entryComponents: [CustomMenuAreaComponent],
   imports: [
     BrowserModule,
     PlaygroundModule.configure({
@@ -40,7 +42,8 @@ import {
         { title: 'Case A', component: CaseAComponent },
         { title: 'Case B', children: [ … ]},
         { title: 'Case C', component: CaseCComponent }
-      ]
+      ],
+      customMenuComponent: CustomMenuAreaComponent
     })
   ],
   bootstrap: [PlaygroundComponent]
