@@ -10,5 +10,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kevinmerckx/ng-playground.git"
-  }
+  },
+  "keywords": [
+    "angular",
+    "playground",
+    "storybook",
+    "examples"
+  ]
 }
