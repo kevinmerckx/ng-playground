@@ -1,6 +1,6 @@
 {
   "editor.tabSize": 2,
-  "jshint.config": true,
+  "jshint.enable": false,
   "search.exclude": {
     "**/node_modules": true
   }
