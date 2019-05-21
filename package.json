@@ -9,7 +9,7 @@
     "test:ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:lib": "ng build ng-playground && cp README.md dist/ng-playground && node-sass projects/ng-playground/src/ng-playground.sass dist/ng-playground/ng-playground.css",
+    "build:lib": "ng build ng-playground && cp README.md LICENSE dist/ng-playground && node-sass projects/ng-playground/src/ng-playground.sass dist/ng-playground/ng-playground.css",
     "semantic-release": "semantic-release"
   },
   "engines": {

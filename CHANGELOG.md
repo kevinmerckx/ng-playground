@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/kevinmerckx/ng-playground/compare/v2.2.0...v2.2.1) (2019-05-17)
+
+
+### Bug Fixes
+
+* **LICENSE, git:** add repo url and LICENSE ([1ae393a](https://github.com/kevinmerckx/ng-playground/commit/1ae393a))
+
 # [2.2.0](https://github.com/kevinmerckx/ng-playground/compare/v2.1.0...v2.2.0) (2019-05-05)
 
 

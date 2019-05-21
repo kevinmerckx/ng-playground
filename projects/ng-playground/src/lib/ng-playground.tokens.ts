@@ -1,5 +1,5 @@
 import { InjectionToken, Type } from '@angular/core';
-import { Route, ResolveData } from '@angular/router';
+import { ResolveData, Route } from '@angular/router';
 
 export interface AbstractRoute {
   title: string;
@@ -24,3 +24,4 @@ export type RouteWithLink = Route & {
 export type PlaygroundRoutes = RouteWithLink[];
 
 export const PLAYGROUND_ROUTES = new InjectionToken<any>('PLAYGROUND_ROUTES');
+export const PLAYGROUND_CUSTOM_MENU_COMPONENT = new InjectionToken<any>('PLAYGROUND_CUSTOM_MENU_COMPONENT');
