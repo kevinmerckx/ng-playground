@@ -33,7 +33,7 @@
     "core-js": "^2.4.1",
     "express": "^4.16.3",
     "http-auth": "^3.2.3",
-    "iwerk-angular-ui": "5.0.0",
+    "iwerk-angular-ui": "5.0.1",
     "rxjs": "^6.3.3",
     "zone.js": "^0.8.28"
   },
