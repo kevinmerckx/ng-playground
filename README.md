@@ -34,13 +34,18 @@ import { CustomMenuAreaComponent } from './custom-menu-area/custom-menu-area.com
     CaseCComponent,
     CustomMenuAreaComponent
   ],
-  entryComponents: [CustomMenuAreaComponent],
+  entryComponents: [
+    CaseAComponent,
+    CaseBComponent,
+    CaseCComponent,
+    CustomMenuAreaComponent
+  ],
   imports: [
     BrowserModule,
     PlaygroundModule.configure({
       routes: [
         { title: 'Case A', component: CaseAComponent },
-        { title: 'Case B', children: [ … ]},
+        { title: 'Parent', children: [ … ]},
         { title: 'Case C', component: CaseCComponent }
       ],
       customMenuComponent: CustomMenuAreaComponent
