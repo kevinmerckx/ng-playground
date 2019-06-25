@@ -4,8 +4,7 @@
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0",
-    "@angular/router": "^7.2.0",
-    "iwerk-angular-ui": "4.0.0"
+    "core-playground": "https://github.com/kevinmerckx/core-playground#646a5dddacc03a651690ea0d52e11ac043e6cc26"
   },
   "repository": {
     "type": "git",
