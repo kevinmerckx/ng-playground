@@ -1,81 +1,43 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule, Type } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders, NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { provideRoutes, RouterModule } from '@angular/router';
-import { TreeModule } from 'iwerk-angular-ui';
-import { AbstractComponent } from './components/abstract/abstract.component';
+import { defineCustomElements } from 'core-playground/loader';
 import { PlaygroundComponent } from './components/playground/playground.component';
 import { EditorConfiguration, ValueEditorComponent } from './components/value-editor/value-editor.component';
-import {
-  AbstractRoute,
-  CustomRoute,
-  LeafRoute,
-  PLAYGROUND_CUSTOM_MENU_COMPONENT,
-  PLAYGROUND_ROUTES,
-  RouteWithLink
-} from './ng-playground.tokens';
+import { CustomRoute, PLAYGROUND_CUSTOM_MENU_COMPONENT, PLAYGROUND_ROUTES } from './ng-playground.tokens';
 import { ValuePipe } from './pipes/value.pipe';
 
 export { EditorConfiguration };
 
+defineCustomElements(window);
+
 @NgModule({
   declarations: [
     PlaygroundComponent,
-    AbstractComponent,
     ValueEditorComponent,
     ValuePipe
   ],
   imports: [
-    TreeModule,
-    RouterModule.forRoot([]),
     CommonModule,
     FormsModule
   ],
   exports: [
     PlaygroundComponent,
-    RouterModule,
     ValuePipe,
     ValueEditorComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PlaygroundModule {
   static configure(config: {
     routes: CustomRoute[]
     customMenuComponent?: Type<any>
   }): ModuleWithProviders {
-    const transform = (routes: CustomRoute[], current: string[] = []): RouteWithLink[] => {
-      return routes.map(r => {
-        const path = r.title.replace(/ /g, '');
-        const newCurrent = current.concat([path]);
-        const component = (r as LeafRoute).component || AbstractComponent;
-        const result = {
-          ...r,
-          component,
-          path,
-          routerLink: newCurrent,
-          resolve: r.resolve,
-          children: transform((r as AbstractRoute).children || [], newCurrent)
-        };
-        if (component === AbstractComponent) {
-          result.children.unshift({
-            path: '',
-            pathMatch: 'full',
-            redirectTo: result.children[0].path,
-            title: '',
-            routerLink: undefined,
-            children: undefined
-          });
-        }
-        return result;
-      });
-    };
-    const routesWithLink: RouteWithLink[] = transform(config.routes);
     return {
       ngModule: PlaygroundModule,
       providers: [
-        { provide: PLAYGROUND_ROUTES, useValue: routesWithLink },
+        { provide: PLAYGROUND_ROUTES, useValue: config.routes },
         { provide: PLAYGROUND_CUSTOM_MENU_COMPONENT, useValue: config.customMenuComponent },
-        provideRoutes(routesWithLink)
       ]
     };
   }

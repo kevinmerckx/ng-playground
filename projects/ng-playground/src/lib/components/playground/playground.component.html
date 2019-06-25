@@ -1,27 +1,12 @@
-<nav>
-  <iw-tree #treeComponent [tree]="tree" class="menu-tree">
-    <ng-template iwTreeNodeTemplate let-node let-depth="depth">
-      <a [routerLink]="node.data.routerLink"
-        [ngStyle]="getLinkStyle(depth)"
-        [routerLinkActive]="'active'"
-        [routerLinkActiveOptions]="{ exact: true }"
-        [iwTreeItem]="node"
-        (click)="treeComponent.expandItem(node)"
-      >
-      <button
-        [style.visibility]="treeComponent.hasChildren(node) ? 'visible' : 'hidden'"
-        (click)="toggleExpand(treeComponent, node, $event)"
-      >
-        <ng-container *ngIf="treeComponent.isExpanded(node)">&#9660;</ng-container>
-        <ng-container *ngIf="!treeComponent.isExpanded(node)">&#9658;</ng-container>
-      </button>{{node.data.title}}</a>
+<my-playground (sectionChange)="currentSection = $event.detail">
+  <playground-section
+    *ngFor="let section of sections"
+    [attr.slot]="section.slot">
+    <ng-template [ngIf]="section.slot === currentSection">
+      <ng-container [ngComponentOutlet]="section.component"></ng-container>
     </ng-template>
-  </iw-tree>
-
-  <div class="custom-area" *ngIf="customMenuComponent">
+  </playground-section>
+  <div slot="playground-custom-area">
     <ng-container [ngComponentOutlet]="customMenuComponent"></ng-container>
   </div>
-</nav>
-<main>
-  <router-outlet></router-outlet>
-</main>
+</my-playground>
