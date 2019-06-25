@@ -1,6 +1,7 @@
 import { Component, Inject, Optional, Type } from '@angular/core';
-import { TreeComponent, TreeItem } from 'iwerk-angular-ui';
-import { PlaygroundRoutes, PLAYGROUND_ROUTES, RouteWithLink, PLAYGROUND_CUSTOM_MENU_COMPONENT } from '../../ng-playground.tokens';
+import { AbstractRoute, CustomRoute, LeafRoute, PLAYGROUND_CUSTOM_MENU_COMPONENT, PLAYGROUND_ROUTES } from '../../ng-playground.tokens';
+
+const SEPARATOR = '/';
 
 @Component({
   selector: 'pg-playground',
@@ -8,29 +9,26 @@ import { PlaygroundRoutes, PLAYGROUND_ROUTES, RouteWithLink, PLAYGROUND_CUSTOM_M
   styleUrls: ['./playground.component.sass']
 })
 export class PlaygroundComponent {
-  tree: TreeItem[];
+  sections: {
+    slot: string
+    component: any
+  }[];
+  currentSection = '';
 
   constructor(
-    @Inject(PLAYGROUND_ROUTES) private routes: PlaygroundRoutes,
+    @Inject(PLAYGROUND_ROUTES) private routes: CustomRoute[],
     @Optional() @Inject(PLAYGROUND_CUSTOM_MENU_COMPONENT) public customMenuComponent: Type<any>
   ) {
-    const transform = (rs: RouteWithLink[]): TreeItem[] => {
-      return rs.map(r => ({
-        data: r,
-        children: transform(r.children || [])
-      })).filter(r => r.data.routerLink);
+    const transform = (rs: CustomRoute[], prefix = '') => {
+      const result = rs.map(r => ({
+        slot: prefix + r.title,
+        component: (r as LeafRoute).component
+      }));
+      return rs.reduce((prev, curr) => {
+        return prev.concat(transform((curr as AbstractRoute).children || [], prefix + curr.title + SEPARATOR));
+      }, result);
     };
-    this.tree = transform(this.routes);
+    this.sections = transform(this.routes);
   }
 
-  getLinkStyle(depth: number) {
-    return { padding: `10px ${depth * 20}px` };
-  }
-
-  toggleExpand(tree: TreeComponent, item: TreeItem, $event: MouseEvent) {
-    $event.stopPropagation();
-    $event.preventDefault();
-    $event.stopImmediatePropagation();
-    tree.toggleExpand(item);
-  }
 }
