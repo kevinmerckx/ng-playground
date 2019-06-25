@@ -1,3 +1,20 @@
+# [3.0.0](https://github.com/kevinmerckx/ng-playground/compare/v2.3.0...v3.0.0) (2019-06-25)
+
+
+### Bug Fixes
+
+* **package:** update iwerk-angular-ui to version 5.0.0 ([ef92300](https://github.com/kevinmerckx/ng-playground/commit/ef92300))
+
+
+### Code Refactoring
+
+* **core-playground:** we now use core-playground ([4e61124](https://github.com/kevinmerckx/ng-playground/commit/4e61124))
+
+
+### BREAKING CHANGES
+
+* **core-playground:** the module API changes. It is therefore not possible to register resolvers anymore. Furthermore, the playground does not use the Angular router anymore.
+
 # [2.3.0](https://github.com/kevinmerckx/ng-playground/compare/v2.2.1...v2.3.0) (2019-05-17)
 
 
