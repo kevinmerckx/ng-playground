@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/kevinmerckx/ng-playground/compare/v3.0.0...v3.0.1) (2019-09-27)
+
+
+### Bug Fixes
+
+* **styles:** fix styles ([0c69b96](https://github.com/kevinmerckx/ng-playground/commit/0c69b96))
+
 # [3.0.0](https://github.com/kevinmerckx/ng-playground/compare/v2.3.0...v3.0.0) (2019-06-25)
 
 
