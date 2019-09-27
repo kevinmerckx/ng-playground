@@ -22,7 +22,8 @@
             ],
             "styles": [
               "src/styles.sass",
-              "projects/ng-playground/src/ng-playground.sass"
+              "projects/ng-playground/src/ng-playground.sass",
+              "node_modules/core-playground/dist/core-playground/core-playground.css"
             ],
             "scripts": []
           },
