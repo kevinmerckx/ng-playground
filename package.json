@@ -30,7 +30,7 @@
     "@angular/platform-browser": "7.2.12",
     "@angular/platform-browser-dynamic": "7.2.12",
     "core-playground": "https://github.com/kevinmerckx/core-playground#646a5dddacc03a651690ea0d52e11ac043e6cc26",
-    "core-js": "^2.4.1",
+    "core-js": "^3.3.6",
     "express": "^4.16.3",
     "http-auth": "^3.2.3",
     "rxjs": "^6.3.3",
