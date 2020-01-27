@@ -42,7 +42,7 @@
     "@angular/cli": "7.3.9",
     "@angular/compiler-cli": "7.2.1",
     "@angular/language-service": "7.2.1",
-    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/changelog": "^5.0.0",
     "@semantic-release/git": "^7.0.8",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
